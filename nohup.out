@@ -1,0 +1,58 @@
+kill: usage: kill [-s sigspec | -n signum | -sigspec] pid | jobspec ... or kill -l [sigspec]
+hint: Pulling without specifying how to reconcile divergent branches is
+hint: discouraged. You can squelch this message by running one of the following
+hint: commands sometime before your next pull:
+hint: 
+hint:   git config pull.rebase false  # merge (the default strategy)
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint: 
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+Already up to date.
+Traceback (most recent call last):
+  File "/home/pi/OnyxBot/onyx.py", line 1, in <module>
+    import main
+  File "/home/pi/OnyxBot/main.py", line 8, in <module>
+    import bot_token
+  File "/home/pi/OnyxBot/bot_token.py", line 1
+    token = "MTE3NTQ4NjM4NjU5MDIwODA5Mw.GEtksf.LOkBxrh0W9DqAtLHcpSMnhl7lvrw5aS9FipvCc"token = "MTE3NTQ4NjM4NjU5MDIwODA5Mw.GEtksf.LOkBxrh0W9DqAtLHcpSMnhl7lvrw5aS9FipvCc"token = "MTE3NTQ4NjM4NjU5MDIwODA5Mw.GEtksf.LOkBxrh0W9DqAtLHcpSMnhl7lvrw5aS9FipvCc"token = "MTE3NTQ4NjM4NjU5MDIwODA5Mw.GEtksf.LOkBxrh0W9DqAtLHcpSMnhl7lvrw5aS9FipvCc"token = "MTE3NTQ4NjM4NjU5MDIwODA5Mw.GEtksf.LOkBxrh0W9DqAtLHcpSMnhl7lvrw5aS9FipvCc"token = "MTE3NTQ4NjM4NjU5MDIwODA5Mw.GEtksf.LOkBxrh0W9DqAtLHcpSMnhl7lvrw5aS9FipvCc"token = "MTE3NTQ4NjM4NjU5MDIwODA5Mw.GEtksf.LOkBxrh0W9DqAtLHcpSMnhl7lvrw5aS9FipvCc"token = "MTE3NTQ4NjM4NjU5MDIwODA5Mw.GEtksf.LOkBxrh0W9DqAtLHcpSMnhl7lvrw5aS9FipvCc"token = "MTE3NTQ4NjM4NjU5MDIwODA5Mw.GEtksf.LOkBxrh0W9DqAtLHcpSMnhl7lvrw5aS9FipvCc"token = "MTE3NTQ4NjM4NjU5MDIwODA5Mw.GEtksf.LOkBxrh0W9DqAtLHcpSMnhl7lvrw5aS9FipvCc"
+                                                                                      ^
+SyntaxError: invalid syntax
+kill: usage: kill [-s sigspec | -n signum | -sigspec] pid | jobspec ... or kill -l [sigspec]
+hint: Pulling without specifying how to reconcile divergent branches is
+hint: discouraged. You can squelch this message by running one of the following
+hint: commands sometime before your next pull:
+hint: 
+hint:   git config pull.rebase false  # merge (the default strategy)
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint: 
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+Already up to date.
+Ignoring exception in command setbirthday:
+Traceback (most recent call last):
+  File "/home/pi/.local/lib/python3.9/site-packages/discord/commands/core.py", line 127, in wrapped
+    ret = await coro(arg)
+  File "/home/pi/.local/lib/python3.9/site-packages/discord/commands/core.py", line 911, in _invoke
+    await self.callback(ctx, **kwargs)
+  File "/home/pi/OnyxBot/main.py", line 44, in setbirthday
+    birthdate = datetime(year, month, day)
+ValueError: month must be in 1..12
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/pi/.local/lib/python3.9/site-packages/discord/bot.py", line 1009, in invoke_application_command
+    await ctx.command.invoke(ctx)
+  File "/home/pi/.local/lib/python3.9/site-packages/discord/commands/core.py", line 359, in invoke
+    await injected(ctx)
+  File "/home/pi/.local/lib/python3.9/site-packages/discord/commands/core.py", line 135, in wrapped
+    raise ApplicationCommandInvokeError(exc) from exc
+discord.errors.ApplicationCommandInvokeError: Application Command raised an exception: ValueError: month must be in 1..12
+Successfully logged in as Onyx#6377
