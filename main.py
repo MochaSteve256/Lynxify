@@ -38,13 +38,25 @@ async def dayssincebirth(ctx):
     else:
         await ctx.respond("Your birthday hasn't been set yet.")
 
-@bot.slash_command(description="Set your birthday for the ```dayssincebirth``` command.")
+@bot.slash_command(description="Set your birthday for the 'dayssincebirth' command.")
 async def setbirthday(ctx, day: int, month: int, year: int):
     user_id = ctx.author.id
     birthdate = datetime(year, month, day)
     cur.execute("INSERT OR REPLACE INTO users (uid, birthdate) VALUES (?, ?)", (user_id, birthdate))
     conn.commit()
     await ctx.respond("Your birthday has been set.")
+
+@bot.slash_command(description="Wipe your data.")
+async def wipe(ctx):
+    user_id = ctx.author.id
+    cur.execute("DELETE FROM users WHERE uid = ?", (user_id,))
+    conn.commit()
+    await ctx.respond("Your data has been deleted from the database.")
+
+#@bot.slash_command(description="")
+#async def quote(ctx):
+#    pass
+
 
 # run bot
 try:
