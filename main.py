@@ -19,11 +19,10 @@ cur.execute('''CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCR
 
 @bot.event
 async def on_ready():
-    print(f'Successfully logged in as {bot.user}')
     #await bot.change_presence(activity=discord.Game("Territorial.io"))
-    print("The bot is connected to the following servers:")
+    print(f"Successfully logged in as '{bot.user}' (ID: {bot.user.id}), in {len(bot.guilds)} guilds:")
     for guild in bot.guilds:
-        print(f"- {guild.name}")
+        print(f"- {guild.id}: {guild.name}")
 
 @bot.slash_command(description="View your age in days.")
 async def dayssincebirth(ctx):
