@@ -1,9 +1,9 @@
 import discord
-from discord.ext import commands
-from discord.ui import Button, View
 import sqlite3
-import time
 from datetime import datetime
+#from discord.ext import commands
+#from discord.ui import Button, View
+#import time
 
 import bot_token
 
