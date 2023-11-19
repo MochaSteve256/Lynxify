@@ -41,7 +41,7 @@ async def dayssincebirth(ctx):
 @bot.slash_command(description="Set your birthday for the 'dayssincebirth' command.")
 async def setbirthday(ctx, day: int, month: int, year: int):
     user_id = ctx.author.id
-    birthdate = datetime(year, month, day)
+    birthdate = datetime(year, month, day).date()
     cur.execute("INSERT OR REPLACE INTO users (uid, birthdate) VALUES (?, ?)", (user_id, birthdate))
     conn.commit()
     await ctx.respond("Your birthday has been set.")
