@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
 kill $(ps aux | grep "python3 lynxify" | grep -v "grep" | awk '{print $2}' | awk 'NR==1{print; exit}') || true
+rm nohup.out || true
 git pull
-nohup python3 lynxify.py > >(tee -a nohup.out) 2>&1 &
+nohup python3 lynxify.py
