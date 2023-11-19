@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
-kill $(ps aux | grep "python3 onyx" | grep -v "grep" | awk '{print $2}' | awk 'NR==1{print; exit}') || true
+kill $(ps aux | grep "python3 lynxify" | grep -v "grep" | awk '{print $2}' | awk 'NR==1{print; exit}') || true
 git pull
-nohup python3 onyx.py
+nohup python3 lynxify.py

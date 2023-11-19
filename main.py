@@ -29,7 +29,7 @@ async def dayssincebirth(ctx):
     cur.execute("SELECT birthdate FROM users WHERE uid = ?", (user_id,))
     birthdate = cur.fetchone()
     if birthdate is not None:
-        birthdate = datetime.strptime(birthdate[0], "%Y-%m-%d %H:%M:%S").date()
+        birthdate = datetime.strptime(birthdate[0], "%Y-%m-%d").date()
         age = (datetime.now().date() - birthdate).days
         if age > 0:
             await ctx.respond(f"You have been alive for {age} days.")

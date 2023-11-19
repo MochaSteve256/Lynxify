@@ -57,3 +57,29 @@ Traceback (most recent call last):
 discord.errors.ApplicationCommandInvokeError: Application Command raised an exception: ValueError: month must be in 1..12
 Successfully logged in as Onyx#6377
 Successfully logged in as Onyx#6377
+python3: can't open file '/home/adrian/Code/Lynxify/onyx.py': [Errno 2] No such file or directory
+Ignoring exception in command dayssincebirth:
+Traceback (most recent call last):
+  File "/home/adrian/.local/lib/python3.10/site-packages/discord/commands/core.py", line 124, in wrapped
+    ret = await coro(arg)
+  File "/home/adrian/.local/lib/python3.10/site-packages/discord/commands/core.py", line 982, in _invoke
+    await self.callback(ctx, **kwargs)
+  File "/home/adrian/Code/Lynxify/main.py", line 32, in dayssincebirth
+    birthdate = datetime.strptime(birthdate[0], "%Y-%m-%d %H:%M:%S").date()
+  File "/usr/lib/python3.10/_strptime.py", line 568, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/usr/lib/python3.10/_strptime.py", line 349, in _strptime
+    raise ValueError("time data %r does not match format %r" %
+ValueError: time data '2007-09-13' does not match format '%Y-%m-%d %H:%M:%S'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/adrian/.local/lib/python3.10/site-packages/discord/bot.py", line 1114, in invoke_application_command
+    await ctx.command.invoke(ctx)
+  File "/home/adrian/.local/lib/python3.10/site-packages/discord/commands/core.py", line 375, in invoke
+    await injected(ctx)
+  File "/home/adrian/.local/lib/python3.10/site-packages/discord/commands/core.py", line 132, in wrapped
+    raise ApplicationCommandInvokeError(exc) from exc
+discord.errors.ApplicationCommandInvokeError: Application Command raised an exception: ValueError: time data '2007-09-13' does not match format '%Y-%m-%d %H:%M:%S'
+Successfully logged in as Lynxify#6377
