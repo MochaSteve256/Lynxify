@@ -21,6 +21,9 @@ cur.execute('''CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCR
 async def on_ready():
     print(f'Successfully logged in as {bot.user}')
     #await bot.change_presence(activity=discord.Game("Territorial.io"))
+    print("The bot is connected to the following servers:")
+    for guild in bot.guilds:
+        print(f"- {guild.name}")
 
 @bot.slash_command(description="View your age in days.")
 async def dayssincebirth(ctx):
@@ -37,6 +40,7 @@ async def dayssincebirth(ctx):
             await ctx.respond("You haven't been born yet.")
     else:
         await ctx.respond("Your birthday hasn't been set yet.")
+    print(f"User {user_id} viewed their age in days.")
 
 @bot.slash_command(description="Set your birthday for the 'dayssincebirth' command.")
 async def setbirthday(ctx, day: int, month: int, year: int):
@@ -45,13 +49,15 @@ async def setbirthday(ctx, day: int, month: int, year: int):
     cur.execute("INSERT OR REPLACE INTO users (uid, birthdate) VALUES (?, ?)", (user_id, birthdate))
     conn.commit()
     await ctx.respond("Your birthday has been set.")
+    print(f"User {user_id} set their birthday.")
 
-@bot.slash_command(description="Wipe your data.")
+@bot.slash_command(description="Delete all your data from this bot's database.")
 async def wipe(ctx):
     user_id = ctx.author.id
     cur.execute("DELETE FROM users WHERE uid = ?", (user_id,))
     conn.commit()
     await ctx.respond("Your data has been deleted from the database.")
+    print(f"User {user_id} wiped their data.")
 
 #@bot.slash_command(description="")
 #async def quote(ctx):
