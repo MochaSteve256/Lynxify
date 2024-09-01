@@ -1,10 +1,13 @@
-# OnyxBot
+# Lynxify
+
 Onyx is a discord bot. Its main purposes are utility and fun.
 
 ## Features
+
 - show age in days since birth
 
 ## Planned features
+
 - quote messages sent by users, and retrieve them later
 - random facts, hot takes, corporate bs buzz
 - translator?
