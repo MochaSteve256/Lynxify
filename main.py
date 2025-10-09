@@ -1,5 +1,6 @@
 import discord
 import sqlite3
+import random
 from datetime import datetime
 #from discord.ext import commands
 #from discord.ui import Button, View
@@ -20,7 +21,7 @@ cur.execute('''CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCR
 @bot.event
 async def on_ready():
     #await bot.change_presence(activity=discord.Game("Territorial.io"))
-    print(f"Successfully logged in as '{bot.user}' (ID: {bot.user.id}), in {len(bot.guilds)} guilds:")
+    print(f"Successfully logged in as '{bot.user}' (ID: {bot.user.id}), in {len(bot.guilds)} guilds:") # type: ignore
     for guild in bot.guilds:
         print(f"- {guild.id}: {guild.name}")
 
@@ -62,9 +63,35 @@ async def wipe(ctx):
     await ctx.respond("Your data has been deleted from the database.")
     print(f"User {user_id} wiped their data.")
 
-#@bot.slash_command(description="")
-#async def quote(ctx):
-#    pass
+#random hot take command
+@bot.slash_command(description="Get a random hot take.")
+async def hottake(ctx):
+    hottakes = []
+    with open('hottakes.txt', 'r') as f:
+        hottakes = f.readlines()
+    hottake = hottakes[random.randint(0, len(hottakes) - 1)]
+    await ctx.respond(hottake)
+    print("Random hottake command used.")
+
+#random fact command
+@bot.slash_command(description="Get a random fact.")
+async def fact(ctx):
+    facts = []
+    with open('facts.txt', 'r') as f:
+        facts = f.readlines()
+    fact = facts[random.randint(0, len(facts) - 1)]
+    await ctx.respond(fact)
+    print("Random fact command used.")
+
+#random corporate buzz command
+@bot.slash_command(description="Get a random corporate buzz.")
+async def corporatebuzz(ctx):
+    corporatebsbuzz = []
+    with open('corporatebsbuzz.txt', 'r') as f:
+        corporatebsbuzz = f.readlines()
+    corporatebuzz = corporatebsbuzz[random.randint(0, len(corporatebsbuzz) - 1)]
+    await ctx.respond(corporatebuzz)
+    print("Random corporate buzz command used.")
 
 
 # run bot

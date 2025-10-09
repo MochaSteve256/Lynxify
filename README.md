@@ -1,6 +1,6 @@
 # Lynxify
 
-Onyx is a discord bot. Its main purposes are utility and fun.
+Lynxify is a discord bot. Its main purposes are utility and fun.
 
 ## Features
 
