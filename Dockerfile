@@ -14,6 +14,5 @@ COPY bot_creds.py .
 COPY facts.txt .
 COPY hottakes.txt .
 COPY corporatebsbuzz.txt .
-COPY database.db .
 
 CMD ["python", "main.py"]
