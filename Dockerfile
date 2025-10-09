@@ -14,7 +14,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python packages
-RUN pip install --no-cache-dir py-cord sqlalchemy psycopg2-binary
+RUN pip install --no-cache-dir sqlalchemy psycopg2-binary
+RUN pip install py-cord --no-binary :all:
 
 COPY main.py .
 COPY bot_creds.py .

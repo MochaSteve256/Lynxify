@@ -1,4 +1,4 @@
-import discord
+from discord import Bot, Intents
 import random
 from datetime import datetime
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, Date
@@ -36,9 +36,9 @@ users = Table(
 metadata.create_all(engine)
 
 # --- DISCORD BOT SETUP ---
-intents = discord.Intents.default()
+intents = Intents.default()
 intents.message_content = True
-bot = discord.Bot(intents=intents)
+bot = Bot(intents=intents)
 
 # --- EVENTS ---
 @bot.event
