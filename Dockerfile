@@ -9,11 +9,11 @@ ENV PYTHONUNBUFFERED=1
 
 # Install build tools and libpq-dev
 RUN apt-get update && apt-get install -y \
-    build-essential \
-    libpq-dev \
     gcc \
-    && pip install py-cord sqlalchemy psycopg2 \
-    && apt-get remove -y build-essential gcc \
+    libpq-dev \
+    build-essential \
+    && pip install --no-cache-dir py-cord sqlalchemy psycopg2 \
+    && apt-get remove -y gcc build-essential \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
