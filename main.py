@@ -48,7 +48,7 @@ async def dayssincebirth(ctx):
         result = conn.execute(query).fetchone()
         if result:
             birthdate = result[0]
-            age = (datetime.now().date() - birthdate).days
+            age = (datetime.now().date() - birthdate.date()).days
             if age > 0:
                 await ctx.respond(f"You have been alive for {age} days.")
             else:

@@ -7,7 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # Turns off buffering for easier container logging
 ENV PYTHONUNBUFFERED=1
 
-RUN pip install py-cord
+RUN pip install py-cord sqlalchemy psycopg2
 
 COPY main.py .
 COPY bot_creds.py .
