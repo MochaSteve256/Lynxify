@@ -5,6 +5,14 @@ from sqlalchemy import create_engine, MetaData, Table, Column, Integer, Date
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.sql import select, insert, update, delete
 
+# Fix for audioop
+import sys
+import types
+
+sys.modules['audioop'] = types.ModuleType('audioop')
+
+
+
 import bot_creds
 
 # --- DATABASE CONFIG ---
