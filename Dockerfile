@@ -10,7 +10,7 @@ ENV PYTHONUNBUFFERED=1
 RUN pip install py-cord
 
 COPY main.py .
-COPY bot_token.py .
+COPY bot_creds.py .
 COPY facts.txt .
 COPY hottakes.txt .
 COPY corporatebsbuzz.txt .
