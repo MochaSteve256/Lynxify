@@ -1,45 +1,60 @@
 import discord
-import sqlite3
 import random
 from datetime import datetime
-#from discord.ext import commands
-#from discord.ui import Button, View
-#import time
+from sqlalchemy import create_engine, MetaData, Table, Column, Integer, Date
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.sql import select, insert, update, delete
 
-import bot_token
+import bot_creds
 
-# set up bot intents
+# --- DATABASE CONFIG ---
+# Example: replace with your own credentials
+DATABASE_URL = bot_creds.db_url
+
+# create engine and metadata
+engine = create_engine(DATABASE_URL)
+metadata = MetaData()
+
+# define users table
+users = Table(
+    'users',
+    metadata,
+    Column('id', Integer, primary_key=True, autoincrement=True),
+    Column('uid', Integer, unique=True, nullable=False),
+    Column('birthdate', Date, nullable=False)
+)
+
+# create table if it doesn't exist
+metadata.create_all(engine)
+
+# --- DISCORD BOT SETUP ---
 intents = discord.Intents.default()
 intents.message_content = True
 bot = discord.Bot(intents=intents)
 
-# connect to database
-conn = sqlite3.connect('database.db')
-cur = conn.cursor()
-cur.execute('''CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, uid INTEGER UNIQUE NOT NULL, birthdate DATE NOT NULL)''')
-
+# --- EVENTS ---
 @bot.event
 async def on_ready():
-    #await bot.change_presence(activity=discord.Game("Territorial.io"))
     print(f"Successfully logged in as '{bot.user}' (ID: {bot.user.id}), in {len(bot.guilds)} guilds:") # type: ignore
     for guild in bot.guilds:
         print(f"- {guild.id}: {guild.name}")
 
+# --- COMMANDS ---
 @bot.slash_command(description="View your age in days.")
 async def dayssincebirth(ctx):
-    #await ctx.respond(f"Time: <t:{int(time.time())}:R>")
     user_id = ctx.author.id
-    cur.execute("SELECT birthdate FROM users WHERE uid = ?", (user_id,))
-    birthdate = cur.fetchone()
-    if birthdate is not None:
-        birthdate = datetime.strptime(birthdate[0], "%Y-%m-%d").date()
-        age = (datetime.now().date() - birthdate).days
-        if age > 0:
-            await ctx.respond(f"You have been alive for {age} days.")
+    with engine.connect() as conn:
+        query = select(users.c.birthdate).where(users.c.uid == user_id)
+        result = conn.execute(query).fetchone()
+        if result:
+            birthdate = result[0]
+            age = (datetime.now().date() - birthdate).days
+            if age > 0:
+                await ctx.respond(f"You have been alive for {age} days.")
+            else:
+                await ctx.respond("You haven't been born yet.")
         else:
-            await ctx.respond("You haven't been born yet.")
-    else:
-        await ctx.respond("Your birthday hasn't been set yet.")
+            await ctx.respond("Your birthday hasn't been set yet.")
     print(f"User {user_id} viewed their age in days.")
 
 @bot.slash_command(description="Set your birthday for the 'dayssincebirth' command.")
@@ -50,53 +65,56 @@ async def setbirthday(ctx, day: int, month: int, year: int):
     except ValueError:
         await ctx.respond("Invalid date. Please enter a valid date in the format 'DD MM YYYY'.")
         return
-    cur.execute("INSERT OR REPLACE INTO users (uid, birthdate) VALUES (?, ?)", (user_id, birthdate))
-    conn.commit()
-    await ctx.respond("Your birthday has been set.")
-    print(f"User {user_id} set their birthday.")
+
+    with engine.connect() as conn:
+        try:
+            # insert or update (upsert)
+            stmt = insert(users).values(uid=user_id, birthdate=birthdate).on_conflict_do_update( # type: ignore
+                index_elements=[users.c.uid],
+                set_={"birthdate": birthdate}
+            )
+            conn.execute(stmt)
+            conn.commit()
+            await ctx.respond("Your birthday has been set.")
+            print(f"User {user_id} set their birthday.")
+        except IntegrityError:
+            await ctx.respond("Failed to set your birthday. Something went wrong.")
 
 @bot.slash_command(description="Delete all your data from this bot's database.")
 async def wipe(ctx):
     user_id = ctx.author.id
-    cur.execute("DELETE FROM users WHERE uid = ?", (user_id,))
-    conn.commit()
+    with engine.connect() as conn:
+        stmt = delete(users).where(users.c.uid == user_id)
+        conn.execute(stmt)
+        conn.commit()
     await ctx.respond("Your data has been deleted from the database.")
     print(f"User {user_id} wiped their data.")
 
-#random hot take command
+# RANDOM COMMANDS (hot take, fact, corporate buzz)
+async def send_random_from_file(ctx, filename):
+    with open(filename, 'r') as f:
+        items = f.readlines()
+    item = items[random.randint(0, len(items)-1)].strip()
+    await ctx.respond(item)
+
 @bot.slash_command(description="Get a random hot take.")
 async def hottake(ctx):
-    hottakes = []
-    with open('hottakes.txt', 'r') as f:
-        hottakes = f.readlines()
-    hottake = hottakes[random.randint(0, len(hottakes) - 1)]
-    await ctx.respond(hottake)
+    await send_random_from_file(ctx, 'hottakes.txt')
     print("Random hottake command used.")
 
-#random fact command
 @bot.slash_command(description="Get a random fact.")
 async def fact(ctx):
-    facts = []
-    with open('facts.txt', 'r') as f:
-        facts = f.readlines()
-    fact = facts[random.randint(0, len(facts) - 1)]
-    await ctx.respond(fact)
+    await send_random_from_file(ctx, 'facts.txt')
     print("Random fact command used.")
 
-#random corporate buzz command
 @bot.slash_command(description="Get a random corporate buzz.")
 async def corporatebuzz(ctx):
-    corporatebsbuzz = []
-    with open('corporatebsbuzz.txt', 'r') as f:
-        corporatebsbuzz = f.readlines()
-    corporatebuzz = corporatebsbuzz[random.randint(0, len(corporatebsbuzz) - 1)]
-    await ctx.respond(corporatebuzz)
+    await send_random_from_file(ctx, 'corporatebsbuzz.txt')
     print("Random corporate buzz command used.")
 
-
-# run bot
+# --- RUN BOT ---
 try:
-    bot.run(bot_token.token)
+    bot.run(bot_creds.token)
 except Exception as ex:
     print("Some error occurred:")
     print(ex)

@@ -1,3 +1,6 @@
 bot_token.py
 **.pyc
 database.db
+prod_db.db
+migrate_db.py
+bot_creds.py
